@@ -24,8 +24,8 @@ public class Bullet : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		Debug.Log("Inside On trigger enter for bullet");
-		Debug.Log("Collided with: " + other.gameObject.name);
+		//Debug.Log("Inside On trigger enter for bullet");
+		//Debug.Log("Collided with: " + other.gameObject.name);
 		Destroy(this.gameObject);
 	}
 }

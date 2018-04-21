@@ -23,19 +23,7 @@ public class PlayerInput : MonoBehaviour {
 			{
 				clickedObject = rayHit.collider.gameObject;
 				if(clickedObject)
-				{
-					Debug.Log("Clicked " + clickedObject.name);
-					if(clickedObject.GetComponent<Node>())
-					{
-						if(!clickedObject.GetComponent<Node>().occupied && selectedTurret)
-						{
-							GameObject temp = (GameObject)Instantiate(selectedTurret, clickedObject.transform.position, Quaternion.identity);
-							if(temp)
-								Debug.Log("Placed a turret");
-							selectedTurret = null;
-						}
-					}
-				}
+					SpawnSelectedTurret();
 			}
 		}
 
@@ -44,6 +32,37 @@ public class PlayerInput : MonoBehaviour {
 			selectedTurret = turretPrefab;
 			if(selectedTurret)
 				Debug.Log("Selected a turret");
+		}
+
+		if(Input.GetKeyDown(KeyCode.Alpha2))
+		{
+			//GameObject.Find("PlayerTower").GetComponent<PlayerSpawner>().QueueUpArmy(Resources.Load("Player") as GameObject);
+		}
+
+		if(Input.GetKeyDown(KeyCode.A))
+		{
+			GameObject[] army = GameObject.FindGameObjectsWithTag("Player");
+			foreach(GameObject obj in army)
+			{
+				obj.GetComponent<BaseCharacter>().attacking = true;
+			}
+		}
+	}
+
+	void SpawnSelectedTurret()
+	{
+		Debug.Log("Clicked " + clickedObject.name);
+		if(clickedObject.GetComponent<Node>())
+		{
+			if(!clickedObject.GetComponent<Node>().occupied && selectedTurret)
+			{
+				float yPos = clickedObject.transform.position.y + clickedObject.GetComponent<Renderer>().bounds.size.y;
+				Vector3 turretSpawnPos = new Vector3(clickedObject.transform.position.x, yPos, clickedObject.transform.position.z);
+				GameObject temp = (GameObject)Instantiate(selectedTurret, turretSpawnPos, Quaternion.identity);
+				if(temp)
+					Debug.Log("Placed a turret");
+				selectedTurret = null;
+			}
 		}
 	}
 }

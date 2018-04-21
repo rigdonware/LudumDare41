@@ -9,8 +9,9 @@ public class Turret : MonoBehaviour {
 	GameObject[] allTargets;
 	bool canShoot = true;
 	float range = 10.0f;
-	float shootCooldown = 2;
+	float shootCooldown = 1;
 	float shootCounter = 0;
+	int cost = 10;
 	// Use this for initialization
 	void Start () {
 		bullet = Resources.Load("Bullet") as GameObject;	

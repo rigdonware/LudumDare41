@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour {
 
-	float respawnCooldown = 3;
+	float respawnCooldown = 4;
 	float respawnCounter = 0;
 	GameObject enemy;
 	GameObject player;
@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour {
 		if(respawnCounter >= respawnCooldown)
 		{
 			GameObject temp = null;
-			temp = (GameObject)Instantiate(player, playerSpawnLoc, Quaternion.identity);
+			//temp = (GameObject)Instantiate(player, playerSpawnLoc, Quaternion.identity);
 			temp = (GameObject)Instantiate(enemy, enemySpawnLoc, Quaternion.identity);
 			respawnCounter = 0;
 		}
