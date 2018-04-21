@@ -5,46 +5,44 @@ using UnityEngine.UI;
 
 public class BaseCharacter : MonoBehaviour {
 
-	GameObject destination;
+	protected GameObject destination;
+	protected GameObject tower = null;
+	protected GameObject bullet;
 	public GameObject[] destinations;
 	public List<GameObject> visitedDestinations;
-	float attackRadius = 5.0f;
-	float attackPower = 0;
+	protected float attackRadius;
+	protected float attackPower;
+	protected float attackCooldown;
+	float attackTimer = 0;
+	bool canAttack = true;
+	public float speed;
 	public GameObject[] enemies;
 	public GameObject targetEnemy;
 	public float health = 100;
-	float maxHealth = 100;
+	protected float maxHealth = 100;
 	public Image healthBar;
 	public bool attacking;
 	public GameObject roundUp;
-	Rigidbody rb;
+	protected bool attackingCastle = false;
+	protected Rigidbody rb;
+
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 		//set it to the amount of destinations there are
 		destinations = GameObject.FindGameObjectsWithTag("Destination");
+		bullet = Resources.Load("Bullet") as GameObject;
 		rb = GetComponent<Rigidbody>();
-		attackPower = Random.Range(10, 20);
 		//healthBar = transform.Find("HealthBar").Find("Image").GetComponent<Image>();
-
 		if(gameObject.tag == "Player")
-		{
-			attacking = false;
-			if(LayerMask.LayerToName(gameObject.layer) == "Soldier")
-			{
-				roundUp = GameObject.Find("SoldierRoundup");
-			}
-			else if(LayerMask.LayerToName(gameObject.layer) == "Sniper")
-			{
-				roundUp = GameObject.Find("SniperRoundup");
-			}
-		}
+			attacking = true;
 		else
 			attacking = true;
+		speed = 8;
 	}
 
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		if(gameObject.tag == "Player")
 			enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		else
@@ -58,13 +56,14 @@ public class BaseCharacter : MonoBehaviour {
 			{
 				//transform.Translate(destination.transform.position.x * Time.deltaTime, destination.transform.position.y * Time.deltaTime, destination.transform.position.z * Time.deltaTime);
 				Vector3 targetDir = destination.transform.position - transform.position;
-				transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, 3 * Time.deltaTime);
-				transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, 3 * Time.deltaTime, 0.0f));
+				transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, speed * Time.deltaTime);
+				transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, speed * Time.deltaTime, 0.0f));
 				if(transform.position == destination.transform.position)
 					destination = null;
+				
 			}
 		}
-
+			
 		if(!attacking && roundUp)
 		{
 			destination = roundUp;
@@ -75,34 +74,57 @@ public class BaseCharacter : MonoBehaviour {
 				roundUp = null;
 		}
 
+		attackTimer += Time.deltaTime;
+		if(attackTimer >= attackCooldown)
+		{
+			canAttack = true;
+		}
+
 		if(!targetEnemy)
 			targetEnemy = FindClosestEnemy();
+		
 		if(targetEnemy)
 		{
-			AttackEnemy();
 			transform.Translate(Vector3.zero);
-			if(targetEnemy.GetComponent<BaseCharacter>().health <= 0)
+			rb.velocity = Vector3.zero;
+			if(canAttack)
 			{
-				Destroy(targetEnemy);
-				GameManager.instance.IncreaseGold(20);
+				AttackEnemy();
+				attackTimer = 0;
+				canAttack = false;
 			}
 		}
-		else
+
+
+		//we have made it to the last node, now go to the castle and attack it
+		if(visitedDestinations.Count == destinations.Length && !targetEnemy)
 		{
-			GetComponent<Animator>().Play("Walking");
+			destination = visitedDestinations[visitedDestinations.Count - 1];
+			transform.Translate(Vector3.zero);
+			rb.velocity = Vector3.zero;
+			if(canAttack)
+			{
+				AttackTower();
+				attackTimer = 0;
+				canAttack = false;
+			}
 		}
 
 		if(health <= 0)
+		{
+			if(gameObject.tag == "Enemy")
+				GameManager.instance.IncreaseGold(20);
 			Destroy(this.gameObject);
+		}
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
 		//Debug.Log("Inside on trigger enter");
-		if(other.gameObject.tag == "Bullet")
+		if(other.gameObject.tag == "Bullet" && other.gameObject.layer != LayerMask.NameToLayer(this.gameObject.tag))
 		{
 			Debug.Log("Collided with enemy");
-			Destroy(this.gameObject);
+			health -= other.gameObject.GetComponent<Bullet>().damage;
 		}
 	}
 
@@ -142,18 +164,20 @@ public class BaseCharacter : MonoBehaviour {
 		return target;
 	}
 
-	void AttackEnemy()
+	public virtual void AttackEnemy()
 	{
-		targetEnemy.GetComponent<BaseCharacter>().health -= attackPower * Time.deltaTime;
-		if(LayerMask.LayerToName(gameObject.layer) == "Soldier")
-		{
-			GetComponent<Animator>().Play("Shooting");
-		}
-		else if(LayerMask.LayerToName(gameObject.layer) == "Sniper")
-		{
-			GetComponent<Animator>().Play("Sniping");
-		}
-
+		Vector3 spawnPos = transform.Find("BulletSpawnPos").position;//new Vector3(transform.position.x, transform.position.y, transform.position.z);
+		GameObject temp = (GameObject)Instantiate(bullet, spawnPos, Quaternion.identity);
+		temp.layer = LayerMask.NameToLayer(gameObject.tag);
+		temp.GetComponent<Bullet>().damage = this.attackPower;
+		temp.GetComponent<Bullet>().destination = targetEnemy.transform.position;
+		//targetEnemy.GetComponent<BaseCharacter>().health -= attackPower;
 		//targetEnemy.GetComponent<BaseCharacter>().healthBar.fillAmount = health;
+	}
+
+	public void AttackTower()
+	{
+		if(tower)
+			tower.GetComponent<Tower>().health -= attackPower;
 	}
 }

@@ -5,11 +5,17 @@ using UnityEngine;
 public class Enemy : BaseCharacter {
 
 	// Use this for initialization
-	void Start () {
-		
+	public override void Start () {
+		base.Start();
+		tower = GameObject.Find("PlayerTower");
+		attackPower = 10;
+		attackRadius = 5;
+		attackCooldown = 2;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
+		base.Update();
 	}
 }
+

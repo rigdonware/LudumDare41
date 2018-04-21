@@ -4,33 +4,55 @@ using UnityEngine;
 
 public class PlayerSpawner : MonoBehaviour {
 
-	List<GameObject> armyQueue;
-	float armyTimer = 0;
-	float armyCooldown = 3;
+	List<GameObject> soldierQueue;
+	List<GameObject> sniperQueue;
+	float soldierTimer = 0;
+	float soldierCooldown = 3;
+	float sniperTimer = 0;
+	float sniperCooldown = 3;
 	// Use this for initialization
 	void Start () {
-		armyQueue = new List<GameObject>();
+		soldierQueue = new List<GameObject>();
+		sniperQueue = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(armyQueue.Count > 0)
+		if(soldierQueue.Count > 0)
 		{
-			foreach(GameObject army in armyQueue.ToArray())
+			soldierTimer += Time.deltaTime;
+			if(soldierTimer >= soldierCooldown)
 			{
-				armyTimer += Time.deltaTime;
-				if(armyTimer >= armyCooldown)
-				{
-					GameObject temp = (GameObject)Instantiate(army, this.gameObject.transform.position, Quaternion.identity);
-					armyTimer = 0;
-					armyQueue.Remove(army);
-				}
+				float difference = GetComponent<Renderer>().bounds.size.y - this.gameObject.GetComponent<Renderer>().bounds.size.y;
+				GameObject temp = (GameObject)Instantiate(soldierQueue[0], this.gameObject.transform.position +  Vector3.up * difference, Quaternion.identity);
+				soldierTimer = 0;
+				soldierQueue.Remove(soldierQueue[0]);
+				soldierQueue.TrimExcess();
+			}
+		}
+
+		if(sniperQueue.Count > 0)
+		{
+			sniperTimer += Time.deltaTime;
+			if(sniperTimer >= sniperCooldown)
+			{
+				float difference = GetComponent<Renderer>().bounds.size.y - this.gameObject.GetComponent<Renderer>().bounds.size.y;
+				GameObject temp = (GameObject)Instantiate(sniperQueue[0], this.gameObject.transform.position +  Vector3.up * difference, Quaternion.identity);
+				sniperTimer = 0;
+				sniperQueue.Remove(sniperQueue[0]);
+				sniperQueue.TrimExcess();
+
 			}
 		}
 	}
 
-	public void QueueUpArmy(GameObject whichPrefab)
+	public void QueueUpSoldier(GameObject whichPrefab)
 	{
-		armyQueue.Add(whichPrefab);
+		soldierQueue.Add(whichPrefab);
+	}
+
+	public void QueueUpSniper(GameObject whichPrefab)
+	{
+		sniperQueue.Add(whichPrefab);
 	}
 }

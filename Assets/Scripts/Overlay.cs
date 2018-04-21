@@ -8,16 +8,16 @@ public class Overlay : MonoBehaviour {
 	public void QueueUpPlayer()
 	{
 		GameObject prefab = Resources.Load("Soldier") as GameObject;
-		GameObject playerTower = GameObject.Find("PlayerTower");
-		if(playerTower && prefab)
-			playerTower.GetComponent<PlayerSpawner>().QueueUpArmy(prefab);
+		GameObject playerStart = GameObject.Find("PlayerStart");
+		if(playerStart && prefab)
+			playerStart.GetComponent<PlayerSpawner>().QueueUpSoldier(prefab);
 	}
 
 	public void QueueUpSoldier()
 	{
 		GameObject prefab = Resources.Load("Sniper") as GameObject;
-		GameObject playerTower = GameObject.Find("PlayerTower");
-		if(playerTower && prefab)
-			playerTower.GetComponent<PlayerSpawner>().QueueUpArmy(prefab);
+		GameObject playerStart = GameObject.Find("PlayerStart");
+		if(playerStart && prefab)
+			playerStart.GetComponent<PlayerSpawner>().QueueUpSniper(prefab);
 	}
 }

@@ -30,8 +30,6 @@ public class PlayerInput : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Alpha1))
 		{
 			selectedTurret = turretPrefab;
-			if(selectedTurret)
-				Debug.Log("Selected a turret");
 		}
 
 		if(Input.GetKeyDown(KeyCode.Alpha2))
@@ -44,7 +42,18 @@ public class PlayerInput : MonoBehaviour {
 			GameObject[] army = GameObject.FindGameObjectsWithTag("Player");
 			foreach(GameObject obj in army)
 			{
-				obj.GetComponent<BaseCharacter>().attacking = true;
+				//obj.GetComponent<BaseCharacter>().attacking = true;
+				switch(LayerMask.LayerToName(obj.layer))
+				{
+				case "Soldier":
+					obj.GetComponent<Soldier>().attacking = true;
+					break;
+				case "Sniper":
+					obj.GetComponent<Sniper>().attacking = true;
+					break;
+				}
+				if(obj.tag == "Enemy")
+					obj.GetComponent<Enemy>().attacking = true;
 			}
 		}
 	}
@@ -54,13 +63,12 @@ public class PlayerInput : MonoBehaviour {
 		Debug.Log("Clicked " + clickedObject.name);
 		if(clickedObject.GetComponent<Node>())
 		{
-			if(!clickedObject.GetComponent<Node>().occupied && selectedTurret)
+			if(!clickedObject.GetComponent<Node>().occupied && selectedTurret && selectedTurret.GetComponent<Turret>().cost <= GameManager.instance.gold)
 			{
 				float yPos = clickedObject.transform.position.y + clickedObject.GetComponent<Renderer>().bounds.size.y;
 				Vector3 turretSpawnPos = new Vector3(clickedObject.transform.position.x, yPos, clickedObject.transform.position.z);
+				GameManager.instance.IncreaseGold(selectedTurret.GetComponent<Turret>().cost * -1);
 				GameObject temp = (GameObject)Instantiate(selectedTurret, turretSpawnPos, Quaternion.identity);
-				if(temp)
-					Debug.Log("Placed a turret");
 				selectedTurret = null;
 			}
 		}
