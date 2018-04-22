@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class BaseCharacter : MonoBehaviour {
 
-	protected GameObject destination;
+	public GameObject destination;
 	protected GameObject tower = null;
 	protected GameObject bullet;
 	public GameObject[] destinations;
+	public GameObject targetDestination;
 	public List<GameObject> visitedDestinations;
 	protected float attackRadius;
 	protected float attackPower;
 	protected float attackCooldown;
+	Vector3 skewedLocation;
 	float attackTimer = 0;
 	bool canAttack = true;
 	public float speed;
@@ -21,7 +23,6 @@ public class BaseCharacter : MonoBehaviour {
 	public float health = 100;
 	protected float maxHealth = 100;
 	public Image healthBar;
-	public bool attacking;
 	public GameObject roundUp;
 	protected bool attackingCastle = false;
 	protected Rigidbody rb;
@@ -33,10 +34,6 @@ public class BaseCharacter : MonoBehaviour {
 		bullet = Resources.Load("Bullet") as GameObject;
 		rb = GetComponent<Rigidbody>();
 		//healthBar = transform.Find("HealthBar").Find("Image").GetComponent<Image>();
-		if(gameObject.tag == "Player")
-			attacking = true;
-		else
-			attacking = true;
 	}
 
 	
@@ -47,7 +44,7 @@ public class BaseCharacter : MonoBehaviour {
 		else
 			enemies = GameObject.FindGameObjectsWithTag("Player");
 
-		if(attacking)
+		if(gameObject.tag == "Enemy")
 		{
 			if(!destination)
 				destination = FindClosestDestination();
@@ -59,18 +56,59 @@ public class BaseCharacter : MonoBehaviour {
 				transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, speed * Time.deltaTime, 0.0f));
 				if(transform.position == destination.transform.position)
 					destination = null;
-				
 			}
 		}
+		else if(gameObject.tag == "Player")
+		{
+			if(GameManager.instance.gameType == GameManager.RTS)
+			{
+				if(!destination)
+				{
+					destination = FindClosestDestination();
+					//skewedLocation = destination.transform.position;
+//					skewedLocation = new Vector3(destination.transform.position.x + Random.Range(-2, 2),
+//					 				 destination.transform.position.y,
+//									destination.transform.position.z + Random.Range(-2, 2));
+				}
+
+				if(targetDestination && destination && !targetEnemy)
+				{
+					Vector3 targetDir = destination.transform.position - transform.position;
+					transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, speed * Time.deltaTime);
+					transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, speed * Time.deltaTime, 0.0f));
+					if(Vector3.Distance(transform.position, destination.transform.position) < 2)
+						destination = null;
 			
-		if(!attacking && roundUp)
+					if(Vector3.Distance(transform.position, targetDestination.transform.position) < 2)
+						targetDestination = null;
+
+				}
+			}
+			else
+			{
+				if(!destination)
+					destination = FindClosestDestination();
+				if(destination && !targetEnemy)
+				{
+					//transform.Translate(destination.transform.position.x * Time.deltaTime, destination.transform.position.y * Time.deltaTime, destination.transform.position.z * Time.deltaTime);
+					Vector3 targetDir = destination.transform.position - transform.position;
+					transform.position = Vector3.MoveTowards(transform.position, destination.transform.position, speed * Time.deltaTime);
+					transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, speed * Time.deltaTime, 0.0f));
+					if(transform.position == destination.transform.position)
+						destination = null;
+				}
+			}
+		}
+
+		if(roundUp)
 		{
 			destination = roundUp;
-			Vector3 size = destination.GetComponent<BoxCollider>().bounds.size;
-			Vector3 location = new Vector3(destination.transform.position.x + Random.Range(0, size.x), destination.transform.position.y, destination.transform.position.z + Random.Range(0, size.z));
-			transform.position = Vector3.MoveTowards(transform.position, location, 3 * Time.deltaTime);
-			if(transform.position == destination.transform.position)
-				roundUp = null;
+			targetDestination = roundUp;
+//			Vector3 size = roundUp.GetComponent<BoxCollider>().bounds.size;
+//			skewedLocation = new Vector3(destination.transform.position.x + Random.Range(size.x * -1, size.x),
+//							 			 destination.transform.position.y,
+//										 destination.transform.position.z + Random.Range(size.z * -1, size.z));
+			roundUp = null;
 		}
 
 		attackTimer += Time.deltaTime;
@@ -84,7 +122,6 @@ public class BaseCharacter : MonoBehaviour {
 		
 		if(targetEnemy)
 		{
-			Debug.Log("There is an enemy");
 			transform.Translate(Vector3.zero);
 			rb.velocity = Vector3.zero;
 			if(canAttack)
@@ -120,7 +157,7 @@ public class BaseCharacter : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		//Debug.Log("Inside on trigger enter");
-		if(other.gameObject.tag == "Bullet" && other.gameObject.layer != LayerMask.NameToLayer(this.gameObject.tag))
+		if(other.gameObject.tag == "Bullet" && other.gameObject.layer != LayerMask.NameToLayer(this.gameObject.tag) && gameObject.tag != "Player")
 		{
 			//Debug.Log("Collided with enemy");
 			health -= other.gameObject.GetComponent<Bullet>().damage;

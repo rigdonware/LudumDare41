@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 65634391343861732}
   - component: {fileID: 54501711571614710}
   - component: {fileID: 114198502343733050}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Robot
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -853,7 +853,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e72c93c905a5c4a8864af5ae0f2754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destination: {fileID: 0}
   destinations: []
+  targetDestination: {fileID: 0}
   visitedDestinations: []
   speed: 0
   enemies: []
@@ -862,6 +864,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   attacking: 0
   roundUp: {fileID: 0}
+  cost: 50
 --- !u!137 &137648108326307374
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

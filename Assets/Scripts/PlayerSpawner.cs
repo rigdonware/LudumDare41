@@ -82,8 +82,9 @@ public class PlayerSpawner : MonoBehaviour {
 
 	public void QueueUpScout(GameObject whichPrefab)
 	{
+		GameObject spawnPos = GameObject.Find("ScoutSpawnPos");
 		float difference = GetComponent<Renderer>().bounds.size.y - this.gameObject.GetComponent<Renderer>().bounds.size.y;
-		GameObject temp = (GameObject)Instantiate(whichPrefab, this.gameObject.transform.position +  Vector3.up * difference, Quaternion.identity);
+		GameObject temp = (GameObject)Instantiate(whichPrefab, spawnPos.transform.position, Quaternion.identity);
 	}
 
 }

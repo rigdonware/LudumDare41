@@ -7,8 +7,10 @@ public class HeavyTurret : Turret {
 
 	public override void Start () {
 		base.Start();
-		range = 20f;
+		range = 10f;
 		shootCooldown = 1;
+		bulletSpeed = 20;
+		damage = 20;
 	}
 
 	public override void Update () {

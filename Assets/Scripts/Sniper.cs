@@ -7,17 +7,20 @@ public class Sniper : BaseCharacter {
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
-		roundUp = GameObject.Find("SniperRoundup");
 		tower = GameObject.Find("EnemyTower");
 		attackRadius = 10.0f;
 		attackPower = 25;
 		attackCooldown = 3;
 		speed = 7;
+		health = 75;
+		if(GameManager.instance.gameType == GameManager.RTS)
+			roundUp = GameObject.Find("SniperRoundup");
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
 		base.Update();
+		
 		if(!targetEnemy)
 		{
 			GetComponent<Animator>().Play("Walking");

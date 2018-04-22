@@ -7,8 +7,10 @@ public class StandardTurret : Turret {
 
 	public override void Start () {
 		base.Start();
-		range = 20f;
-		shootCooldown = 1;
+		range = 15f;
+		shootCooldown = .5f;
+		bulletSpeed = 20;
+		damage = 10;
 	}
 
 	public override void Update () {

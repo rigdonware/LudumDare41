@@ -68,33 +68,6 @@ public class PlayerInput : MonoBehaviour {
 		{
 			selectedTurret = heavyTurret;
 		}
-
-		if(Input.GetKeyDown(KeyCode.A))
-		{
-			GameObject[] army = GameObject.FindGameObjectsWithTag("Player");
-			foreach(GameObject obj in army)
-			{
-				//obj.GetComponent<BaseCharacter>().attacking = true;
-				switch(LayerMask.LayerToName(obj.layer))
-				{
-				case "Soldier":
-					obj.GetComponent<Soldier>().attacking = true;
-					break;
-				case "Sniper":
-					obj.GetComponent<Sniper>().attacking = true;
-					break;
-				case "Robot":
-					obj.GetComponent<Robot>().attacking = true;
-					break;
-				case "RockMonster":
-					obj.GetComponent<RockMonster>().attacking = true;
-					break;
-				case "LeafMonster":
-					obj.GetComponent<LeafMonster>().attacking = true;
-					break;
-				}
-			}
-		}
 	}
 
 	void SpawnSelectedTurret()

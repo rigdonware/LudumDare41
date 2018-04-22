@@ -11,6 +11,7 @@ public class Turret : MonoBehaviour {
 	protected float range;
 	protected float shootCooldown;
 	protected int damage;
+	protected float bulletSpeed;
 	float shootCounter = 0;
 	// Use this for initialization
 	public virtual void Start () {
@@ -23,7 +24,6 @@ public class Turret : MonoBehaviour {
 		target = FindNearestTargetInRange();
 		if(target)
 		{
-			Debug.Log("Found target");
 			Vector3 targetDir = target.transform.position - transform.position;
 			transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, 5 * Time.deltaTime, 0.0f));
 			if(canShoot)
@@ -61,5 +61,7 @@ public class Turret : MonoBehaviour {
 		Vector3 spawnPos = transform.Find("BulletSpawnPos").position;
 		GameObject temp = (GameObject)Instantiate(bullet, spawnPos, Quaternion.identity);
 		temp.GetComponent<Bullet>().destination = target.transform.position;
+		temp.GetComponent<Bullet>().damage = this.damage;
+		temp.GetComponent<Bullet>().speed = this.bulletSpeed;
 	}
 }

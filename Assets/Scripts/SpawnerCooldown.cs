@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SpawnerCooldown : MonoBehaviour {
 
-	public Image loadingBar;
 	public float currentValue;
 	// Use this for initialization
 	void Start () {
@@ -23,7 +22,6 @@ public class SpawnerCooldown : MonoBehaviour {
 		{
 			gameObject.SetActive(true);
 		}
-		loadingBar.fillAmount = currentValue / 100;
 	}
 
 	public void ResetCurrentValue()

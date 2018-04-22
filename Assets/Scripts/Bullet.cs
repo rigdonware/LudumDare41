@@ -5,10 +5,10 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
 	public Vector3 destination;
-	float lifeSpan = 5f;
+	float lifeSpan = 2f;
 	float lifeCounter = 0f;
 	public float damage = 10;
-	float speed = 20;
+	public float speed;
 
 	// Update is called once per frame
 	void Update () {

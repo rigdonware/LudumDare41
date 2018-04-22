@@ -56,4 +56,32 @@ public class Overlay : MonoBehaviour {
 		if(playerStart && prefab)
 			playerStart.GetComponent<PlayerSpawner>().QueueUpScout(prefab);
 	}
+
+	public void SwitchGameMode()
+	{
+		if(GameManager.instance.gameType == GameManager.RTS)
+		{
+			GameManager.instance.gameType = GameManager.TOWER_DEFENSE;
+		}
+		else
+		{
+			GameManager.instance.gameType = GameManager.RTS;
+		}
+	}
+
+	public void HealTower()
+	{
+		GameObject playerTower = GameObject.Find("PlayerTower");
+
+		if(!playerTower)
+			return;
+
+		if(GameManager.instance.brick >= 20)
+		{
+			playerTower.GetComponent<Tower>().health += 10;
+			if(playerTower.GetComponent<Tower>().health >= 100)
+				playerTower.GetComponent<Tower>().health  = 100;
+			GameManager.instance.IncreaseBrick(20 * -1);
+		}
+	}
 }

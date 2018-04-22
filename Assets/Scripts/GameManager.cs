@@ -13,11 +13,18 @@ public class GameManager : MonoBehaviour {
 	GameObject playerTower, enemyTower;
 	bool gameOver;
 
+	public int gameType;
+	public const int RTS = 1;
+	public const int TOWER_DEFENSE = 2;
+
+	public Slider towerHealth;
+
 	Text goldText, brickText, steelText;
 	public bool playerWins;
 	// Use this for initialization
 	void Start () {
-		gold = 20;
+		gameType = RTS;
+		gold = 200;
 		steel = 50;
 		goldText = GameObject.Find("Canvas").transform.Find("Gold").GetComponent<Text>();
 		brickText = GameObject.Find("Canvas").transform.Find("Brick").GetComponent<Text>();
@@ -58,6 +65,9 @@ public class GameManager : MonoBehaviour {
 			ProcessGameOver();
 			Destroy(gameObject);
 		}
+
+		if(towerHealth && playerTower)
+			towerHealth.value = playerTower.GetComponent<Tower>().health / 100;
 	}
 
 	public void IncreaseGold(int amount)

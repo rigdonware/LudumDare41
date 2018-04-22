@@ -7,17 +7,21 @@ public class Robot : BaseCharacter {
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
-		roundUp = GameObject.Find("SoldierRoundup");
 		tower = GameObject.Find("EnemyTower");
 		attackRadius = 2.0f;
 		attackPower = 1;
 		attackCooldown = .1f;
 		speed = 10;
+		health = 120;
+		if(GameManager.instance.gameType == GameManager.RTS)
+			roundUp = GameObject.Find("RobotRoundup");
 	}
 
 	// Update is called once per frame
 	public override void Update () {
 		base.Update();
+
+		
 		if(!targetEnemy)
 		{
 			GetComponent<Animator>().Play("Walking");

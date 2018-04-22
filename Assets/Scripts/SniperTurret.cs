@@ -8,7 +8,9 @@ public class SniperTurret : Turret {
 	public override void Start () {
 		base.Start();
 		range = 20f;
-		shootCooldown = 1;
+		shootCooldown = 1.5f;
+		bulletSpeed = 40;
+		damage = 15;
 	}
 
 	public override void Update () {

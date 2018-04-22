@@ -49,7 +49,7 @@ public class Scout : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.gameObject.name == targetMaterial.name)
+		if(targetMaterial && other.gameObject.name == targetMaterial.name)
 		{
 			atTargetMaterial = true;
 		}
