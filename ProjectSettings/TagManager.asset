@@ -21,10 +21,10 @@ TagManager:
   - Sniper
   - Player
   - Enemy
-  - 
-  - 
-  - 
-  - 
+  - LeafMonster
+  - RockMonster
+  - IceMonster
+  - Robot
   - 
   - 
   - 

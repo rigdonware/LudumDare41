@@ -9,13 +9,10 @@ public class Soldier : BaseCharacter {
 		base.Start();
 		roundUp = GameObject.Find("SoldierRoundup");
 		tower = GameObject.Find("EnemyTower");
-
-		if(tower)
-			Debug.Log("Found tower!");
-		
 		attackRadius = 5.0f;
 		attackPower = 1;
 		attackCooldown = .1f;
+		speed = 10;
 	}
 	
 	// Update is called once per frame
@@ -31,5 +28,10 @@ public class Soldier : BaseCharacter {
 	{
 		base.AttackEnemy();
 		GetComponent<Animator>().Play("Shooting");
+		Vector3 spawnPos = transform.Find("BulletSpawnPos").position;
+		GameObject temp = (GameObject)Instantiate(bullet, spawnPos, Quaternion.identity);
+		temp.layer = LayerMask.NameToLayer(gameObject.tag);
+		temp.GetComponent<Bullet>().damage = this.attackPower;
+		temp.GetComponent<Bullet>().destination = targetEnemy.transform.position;
 	}
 }

@@ -12,6 +12,7 @@ public class Sniper : BaseCharacter {
 		attackRadius = 10.0f;
 		attackPower = 25;
 		attackCooldown = 3;
+		speed = 7;
 	}
 	
 	// Update is called once per frame
@@ -27,5 +28,10 @@ public class Sniper : BaseCharacter {
 	{
 		base.AttackEnemy();
 		GetComponent<Animator>().Play("Sniping");
+		Vector3 spawnPos = transform.Find("BulletSpawnPos").position;
+		GameObject temp = (GameObject)Instantiate(bullet, spawnPos, Quaternion.identity);
+		temp.layer = LayerMask.NameToLayer(gameObject.tag);
+		temp.GetComponent<Bullet>().damage = this.attackPower;
+		temp.GetComponent<Bullet>().destination = targetEnemy.transform.position;
 	}
 }

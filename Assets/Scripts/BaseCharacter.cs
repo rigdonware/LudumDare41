@@ -37,7 +37,6 @@ public class BaseCharacter : MonoBehaviour {
 			attacking = true;
 		else
 			attacking = true;
-		speed = 8;
 	}
 
 	
@@ -123,7 +122,7 @@ public class BaseCharacter : MonoBehaviour {
 		//Debug.Log("Inside on trigger enter");
 		if(other.gameObject.tag == "Bullet" && other.gameObject.layer != LayerMask.NameToLayer(this.gameObject.tag))
 		{
-			Debug.Log("Collided with enemy");
+			//Debug.Log("Collided with enemy");
 			health -= other.gameObject.GetComponent<Bullet>().damage;
 		}
 	}
@@ -166,11 +165,7 @@ public class BaseCharacter : MonoBehaviour {
 
 	public virtual void AttackEnemy()
 	{
-		Vector3 spawnPos = transform.Find("BulletSpawnPos").position;//new Vector3(transform.position.x, transform.position.y, transform.position.z);
-		GameObject temp = (GameObject)Instantiate(bullet, spawnPos, Quaternion.identity);
-		temp.layer = LayerMask.NameToLayer(gameObject.tag);
-		temp.GetComponent<Bullet>().damage = this.attackPower;
-		temp.GetComponent<Bullet>().destination = targetEnemy.transform.position;
+		
 		//targetEnemy.GetComponent<BaseCharacter>().health -= attackPower;
 		//targetEnemy.GetComponent<BaseCharacter>().healthBar.fillAmount = health;
 	}

@@ -8,12 +8,13 @@ public class Bullet : MonoBehaviour {
 	float lifeSpan = 5f;
 	float lifeCounter = 0f;
 	public float damage = 10;
+	float speed = 20;
 
 	// Update is called once per frame
 	void Update () {
 		if(destination != Vector3.zero)
 		{
-			transform.position = Vector3.MoveTowards(transform.position, destination, 5 * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
 		}
 		lifeCounter += Time.deltaTime;
 		if(lifeCounter >= lifeSpan)
@@ -25,8 +26,6 @@ public class Bullet : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		//Debug.Log("Inside On trigger enter for bullet");
-		//Debug.Log("Collided with: " + other.gameObject.name);
 		Destroy(this.gameObject);
 	}
 

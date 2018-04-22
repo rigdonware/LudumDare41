@@ -7,16 +7,19 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-	public int gold = 0;
+	public int gold = 20;
+	public int brick = 0;
+	public int steel = 0;
 	GameObject playerTower, enemyTower;
 	bool gameOver;
 
 	Text goldText;
 	// Use this for initialization
 	void Start () {
+		gold = 20;
 		goldText = GameObject.Find("Canvas").transform.Find("Gold").GetComponent<Text>();
 		if(goldText)
-			goldText.text = "Gold: 0";
+			goldText.text = "Gold: " + gold.ToString();
 		gameOver = false;
 	}
 	

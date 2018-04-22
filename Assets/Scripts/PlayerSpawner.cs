@@ -6,14 +6,18 @@ public class PlayerSpawner : MonoBehaviour {
 
 	List<GameObject> soldierQueue;
 	List<GameObject> sniperQueue;
+	List<GameObject> robotQueue;
 	float soldierTimer = 0;
 	float soldierCooldown = 3;
 	float sniperTimer = 0;
 	float sniperCooldown = 3;
+	float robotTimer = 0;
+	float robotCooldown = 3;
 	// Use this for initialization
 	void Start () {
 		soldierQueue = new List<GameObject>();
 		sniperQueue = new List<GameObject>();
+		robotQueue = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -44,6 +48,20 @@ public class PlayerSpawner : MonoBehaviour {
 
 			}
 		}
+
+		if(robotQueue.Count > 0)
+		{
+			robotTimer += Time.deltaTime;
+			if(robotTimer >= robotCooldown)
+			{
+				float difference = GetComponent<Renderer>().bounds.size.y - this.gameObject.GetComponent<Renderer>().bounds.size.y;
+				GameObject temp = (GameObject)Instantiate(robotQueue[0], this.gameObject.transform.position +  Vector3.up * difference, Quaternion.identity);
+				robotTimer = 0;
+				robotQueue.Remove(robotQueue[0]);
+				robotQueue.TrimExcess();
+
+			}
+		}
 	}
 
 	public void QueueUpSoldier(GameObject whichPrefab)
@@ -52,6 +70,11 @@ public class PlayerSpawner : MonoBehaviour {
 	}
 
 	public void QueueUpSniper(GameObject whichPrefab)
+	{
+		sniperQueue.Add(whichPrefab);
+	}
+
+	public void QueueUpRobot(GameObject whichPrefab)
 	{
 		sniperQueue.Add(whichPrefab);
 	}

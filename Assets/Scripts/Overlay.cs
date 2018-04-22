@@ -20,4 +20,12 @@ public class Overlay : MonoBehaviour {
 		if(playerStart && prefab)
 			playerStart.GetComponent<PlayerSpawner>().QueueUpSniper(prefab);
 	}
+
+	public void QueueUpRobot()
+	{
+		GameObject prefab = Resources.Load("Robot") as GameObject;
+		GameObject playerStart = GameObject.Find("PlayerStart");
+		if(playerStart && prefab)
+			playerStart.GetComponent<PlayerSpawner>().QueueUpRobot(prefab);
+	}
 }
