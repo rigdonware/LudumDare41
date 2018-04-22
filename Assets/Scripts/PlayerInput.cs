@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour {
 
 	GameObject sniperTurret;
+	GameObject standardTurret;
+	GameObject heavyTurret;
 	Ray ray;
 	RaycastHit rayHit;
 	GameObject clickedObject;
@@ -12,6 +14,8 @@ public class PlayerInput : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		sniperTurret = Resources.Load("SniperTurret") as GameObject;
+		standardTurret = Resources.Load("StandardTurret") as GameObject;
+		heavyTurret = Resources.Load("HeavyTurret") as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -52,12 +56,17 @@ public class PlayerInput : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			selectedTurret = sniperTurret;
+			selectedTurret = standardTurret;
 		}
 
 		if(Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			//GameObject.Find("PlayerTower").GetComponent<PlayerSpawner>().QueueUpArmy(Resources.Load("Player") as GameObject);
+			selectedTurret = sniperTurret;
+		}
+
+		if(Input.GetKeyDown(KeyCode.Alpha3))
+		{
+			selectedTurret = heavyTurret;
 		}
 
 		if(Input.GetKeyDown(KeyCode.A))
@@ -90,13 +99,36 @@ public class PlayerInput : MonoBehaviour {
 
 	void SpawnSelectedTurret()
 	{
-		
+		if(!selectedTurret)
+			return;
 
-		if(!clickedObject.GetComponent<Node>().occupied && selectedTurret && selectedTurret.GetComponent<Turret>().cost <= GameManager.instance.gold)
+		int cost = 0;
+		switch(selectedTurret.name)
+		{
+		case "SniperTurret":
+			cost = selectedTurret.GetComponent<SniperTurret>().cost;
+			break;
+		case "StandardTurret":
+			cost = selectedTurret.GetComponent<StandardTurret>().cost;
+			break;
+		case "HeavyTurret":
+			cost = selectedTurret.GetComponent<HeavyTurret>().cost;
+			break;
+		}
+
+		if(GameManager.instance.steel < cost)
+		{
+			Debug.Log("Not enough steel!");
+			selectedTurret = null;
+			return;
+		}
+		Debug.Log("Inside spawn selected turret");
+		if(!clickedObject.GetComponent<Node>().occupied)
 		{
 			float yPos = clickedObject.transform.position.y + clickedObject.GetComponent<Renderer>().bounds.size.y;
 			Vector3 turretSpawnPos = new Vector3(clickedObject.transform.position.x, yPos, clickedObject.transform.position.z);
-			GameManager.instance.IncreaseGold(selectedTurret.GetComponent<Turret>().cost * -1);
+			GameManager.instance.IncreaseSteel(cost * -1);
+			clickedObject.GetComponent<Node>().occupied = true;
 			GameObject temp = (GameObject)Instantiate(selectedTurret, turretSpawnPos, Quaternion.identity);
 		}
 		selectedTurret = null;

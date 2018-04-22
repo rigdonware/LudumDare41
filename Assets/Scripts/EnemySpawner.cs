@@ -7,9 +7,9 @@ public class EnemySpawner : MonoBehaviour {
 	float respawnCooldown = 4;
 	float respawnCounter = 0;
 	GameObject[] monsters;
-	GameObject RockMonster;
-	GameObject LeafMonster;
-	GameObject IceMonster;
+//	GameObject RockMonster;
+//	GameObject LeafMonster;
+//	GameObject IceMonster;
 	GameObject enemyStart;
 	Vector3 enemySpawnLoc;
 	// Use this for initialization
@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour {
 		monsters = new GameObject[3];
 		monsters[0] = Resources.Load("LeafMonster") as GameObject;
 		monsters[1] = Resources.Load("RockMonster") as GameObject;
-		IceMonster = monsters[2] = Resources.Load("IceMonster") as GameObject;
+		monsters[2] = Resources.Load("IceMonster") as GameObject;
 
 		enemyStart = GameObject.Find("EnemyStart");
 		enemySpawnLoc = new Vector3(enemyStart.transform.position.x, enemyStart.transform.position.y, enemyStart.transform.position.z);

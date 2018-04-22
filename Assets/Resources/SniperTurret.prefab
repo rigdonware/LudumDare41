@@ -68,7 +68,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4212872095475940}
-  - component: {fileID: 114053481163810108}
+  - component: {fileID: 114852908034540638}
   m_Layer: 0
   m_Name: SniperTurret
   m_TagString: Untagged
@@ -314,7 +314,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1659701131149600}
   m_Mesh: {fileID: 4300000, guid: 2d248bfa81db88d4588c39661e26483a, type: 3}
---- !u!114 &114053481163810108
+--- !u!114 &114852908034540638
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1653976760431094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f028f7a89dee0744e935c12f27ca1bde, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d99092e262973148a369cf9c9207e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 10
+  cost: 20

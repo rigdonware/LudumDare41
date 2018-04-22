@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Soldier : BaseCharacter {
 
+	public int cost = 10;
 	// Use this for initialization
 	public override void Start () {
 		base.Start();

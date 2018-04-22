@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Robot : BaseCharacter {
-
+	public int cost = 50;
 	// Use this for initialization
 	public override void Start () {
 		base.Start();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Sniper : BaseCharacter {
-
+	public int 	cost = 20;
 	// Use this for initialization
 	public override void Start () {
 		base.Start();

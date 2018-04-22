@@ -7,26 +7,23 @@ public class Turret : MonoBehaviour {
 	GameObject target;
 	GameObject bullet;
 	GameObject[] allTargets;
-	GameObject head;
 	bool canShoot = true;
-	float range = 20f;
-	float shootCooldown = 1;
+	protected float range;
+	protected float shootCooldown;
+	protected int damage;
 	float shootCounter = 0;
-	public int cost = 10;
 	// Use this for initialization
-	void Start () {
-		bullet = Resources.Load("Bullet") as GameObject;	
-		//head = transform.Find("TurretHead").gameObject;
-		//if(head)
-		//	Debug.Log("We have a head!");
+	public virtual void Start () {
+		bullet = Resources.Load("Bullet") as GameObject;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		allTargets = GameObject.FindGameObjectsWithTag("Enemy");
 		target = FindNearestTargetInRange();
 		if(target)
 		{
+			Debug.Log("Found target");
 			Vector3 targetDir = target.transform.position - transform.position;
 			transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, 5 * Time.deltaTime, 0.0f));
 			if(canShoot)

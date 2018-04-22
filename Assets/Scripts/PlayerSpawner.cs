@@ -45,7 +45,6 @@ public class PlayerSpawner : MonoBehaviour {
 				sniperTimer = 0;
 				sniperQueue.Remove(sniperQueue[0]);
 				sniperQueue.TrimExcess();
-
 			}
 		}
 
@@ -59,7 +58,6 @@ public class PlayerSpawner : MonoBehaviour {
 				robotTimer = 0;
 				robotQueue.Remove(robotQueue[0]);
 				robotQueue.TrimExcess();
-
 			}
 		}
 	}
@@ -67,15 +65,25 @@ public class PlayerSpawner : MonoBehaviour {
 	public void QueueUpSoldier(GameObject whichPrefab)
 	{
 		soldierQueue.Add(whichPrefab);
+		GameManager.instance.IncreaseGold(whichPrefab.GetComponent<Soldier>().cost	* -1);
 	}
 
 	public void QueueUpSniper(GameObject whichPrefab)
 	{
 		sniperQueue.Add(whichPrefab);
+		GameManager.instance.IncreaseGold(whichPrefab.GetComponent<Sniper>().cost	* -1);
 	}
 
 	public void QueueUpRobot(GameObject whichPrefab)
 	{
-		sniperQueue.Add(whichPrefab);
+		robotQueue.Add(whichPrefab);
+		GameManager.instance.IncreaseGold(whichPrefab.GetComponent<Robot>().cost * -1);
 	}
+
+	public void QueueUpScout(GameObject whichPrefab)
+	{
+		float difference = GetComponent<Renderer>().bounds.size.y - this.gameObject.GetComponent<Renderer>().bounds.size.y;
+		GameObject temp = (GameObject)Instantiate(whichPrefab, this.gameObject.transform.position +  Vector3.up * difference, Quaternion.identity);
+	}
+
 }

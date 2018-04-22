@@ -84,6 +84,7 @@ public class BaseCharacter : MonoBehaviour {
 		
 		if(targetEnemy)
 		{
+			Debug.Log("There is an enemy");
 			transform.Translate(Vector3.zero);
 			rb.velocity = Vector3.zero;
 			if(canAttack)
@@ -93,14 +94,13 @@ public class BaseCharacter : MonoBehaviour {
 				canAttack = false;
 			}
 		}
-
-
 		//we have made it to the last node, now go to the castle and attack it
-		if(visitedDestinations.Count == destinations.Length && !targetEnemy)
+		else if(visitedDestinations.Count > destinations.Length && !targetEnemy)
 		{
-			destination = visitedDestinations[visitedDestinations.Count - 1];
+			destination = null;
 			transform.Translate(Vector3.zero);
 			rb.velocity = Vector3.zero;
+			gameObject.GetComponent<Animator>().Play("Attack");
 			if(canAttack)
 			{
 				AttackTower();
@@ -172,6 +172,7 @@ public class BaseCharacter : MonoBehaviour {
 
 	public void AttackTower()
 	{
+		Debug.Log("Attacking tower");
 		if(tower)
 			tower.GetComponent<Tower>().health -= attackPower;
 	}
