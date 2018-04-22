@@ -9,10 +9,10 @@ public class RockMonster : BaseCharacter {
 		base.Start();
 		tower = GameObject.Find("PlayerTower");
 		attackPower = 25;
-		attackRadius = 2;
+		attackRadius = 3;
 		attackCooldown = 3;
 		speed = 3;
-		health = 150;
+		health = 200;
 	}
 
 	// Update is called once per frame

@@ -25,6 +25,8 @@ public class Scout : MonoBehaviour {
 			Vector3 targetDir = targetDestination.transform.position - transform.position;
 			transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, targetDir, 2 * Time.deltaTime, 0.0f));
 			transform.position = Vector3.MoveTowards(transform.position, targetDestination.transform.position, 4 * Time.deltaTime);
+			if(Vector3.Distance(transform.position, targetDestination.transform.position) < 4)
+				atTargetMaterial = true;
 		}
 			
 		//if you are at the target material, harvest/play animation

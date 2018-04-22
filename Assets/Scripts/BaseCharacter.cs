@@ -183,6 +183,25 @@ public class BaseCharacter : MonoBehaviour {
 		return destination;
 	}
 
+	public GameObject FindClosestDestinationForRTS()
+	{
+		GameObject destination = null;
+
+		float closestDistance = float.MaxValue;
+
+		foreach(GameObject dest in destinations)
+		{
+			float distance = Vector3.Distance(dest.transform.position, transform.position);
+			if(distance < closestDistance)
+			{
+				closestDistance = distance;
+				destination = dest;
+			}
+		}
+		//visitedDestinations.Add(destination);
+		return destination;
+	}
+		
 	public GameObject FindClosestEnemy()
 	{
 		GameObject target = null;

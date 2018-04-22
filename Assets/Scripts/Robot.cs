@@ -8,7 +8,7 @@ public class Robot : BaseCharacter {
 	public override void Start () {
 		base.Start();
 		tower = GameObject.Find("EnemyTower");
-		attackRadius = 2.0f;
+		attackRadius = 3.0f;
 		attackPower = 1;
 		attackCooldown = .1f;
 		speed = 10;

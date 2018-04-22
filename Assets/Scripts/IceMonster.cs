@@ -9,9 +9,10 @@ public class IceMonster : BaseCharacter {
 		base.Start();
 		tower = GameObject.Find("PlayerTower");
 		attackPower = 10;
-		attackRadius = 2;
+		attackRadius = 3;
 		attackCooldown = 2;
-		speed = 3;
+		speed = 4;
+		health = 100;
 	}
 
 	// Update is called once per frame

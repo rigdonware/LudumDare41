@@ -53,6 +53,10 @@ public class BoxSelection : MonoBehaviour {
 					Debug.Log("Moving units");
 					MoveSelectedUnits();
 				}
+				else if(clickedLocation.name != "Brick" && clickedLocation.name != "Steel"  && selectedUnits.Count > 0)
+				{
+					GameManager.instance.DisplayWarning("You selected an incorrect movement location");
+				}
 			}
 		}
 	}

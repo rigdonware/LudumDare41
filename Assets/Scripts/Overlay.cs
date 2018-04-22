@@ -10,7 +10,7 @@ public class Overlay : MonoBehaviour {
 		GameObject prefab = Resources.Load("Soldier") as GameObject;
 		if(GameManager.instance.gold < prefab.GetComponent<Soldier>().cost)
 		{
-			Debug.Log("Not enough gold!");
+			GameManager.instance.DisplayWarning("Not enough gold");
 			return;
 		}
 		GameObject playerStart = GameObject.Find("PlayerStart");
@@ -23,7 +23,7 @@ public class Overlay : MonoBehaviour {
 		GameObject prefab = Resources.Load("Sniper") as GameObject;
 		if(GameManager.instance.gold < prefab.GetComponent<Sniper>().cost)
 		{
-			Debug.Log("Not enough gold!");
+			GameManager.instance.DisplayWarning("Not enough gold");
 			return;
 		}
 		GameObject playerStart = GameObject.Find("PlayerStart");
@@ -36,7 +36,7 @@ public class Overlay : MonoBehaviour {
 		GameObject prefab = Resources.Load("Robot") as GameObject;
 		if(GameManager.instance.gold < prefab.GetComponent<Robot>().cost)
 		{
-			Debug.Log("Not enough gold!");
+			GameManager.instance.DisplayWarning("Not enough gold");
 			return;
 		}
 		GameObject playerStart = GameObject.Find("PlayerStart");
@@ -49,7 +49,7 @@ public class Overlay : MonoBehaviour {
 		GameObject prefab = Resources.Load("Scout") as GameObject;
 		if(GameManager.instance.gold < prefab.GetComponent<Scout>().cost)
 		{
-			Debug.Log("Not enough gold!");
+			GameManager.instance.DisplayWarning("Not enough gold");
 			return;
 		}
 		GameObject playerStart = GameObject.Find("PlayerStart");
@@ -82,6 +82,10 @@ public class Overlay : MonoBehaviour {
 			if(playerTower.GetComponent<Tower>().health >= 100)
 				playerTower.GetComponent<Tower>().health  = 100;
 			GameManager.instance.IncreaseBrick(20 * -1);
+		}
+		else
+		{
+			GameManager.instance.DisplayWarning("Not enough brick");
 		}
 	}
 }

@@ -40,7 +40,6 @@ public class PlayerInput : MonoBehaviour {
 			//if the selected object is a scout
 			if(clickedObject && clickedObject.GetComponent<Scout>())
 			{
-				Debug.Log("Selected the scout and now right clicking");
 				ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				if(Physics.Raycast(ray, out rayHit))
 				{
@@ -91,11 +90,10 @@ public class PlayerInput : MonoBehaviour {
 
 		if(GameManager.instance.steel < cost)
 		{
-			Debug.Log("Not enough steel!");
+			GameManager.instance.DisplayWarning("Not enough steel");
 			selectedTurret = null;
 			return;
 		}
-		Debug.Log("Inside spawn selected turret");
 		if(!clickedObject.GetComponent<Node>().occupied)
 		{
 			float yPos = clickedObject.transform.position.y + clickedObject.GetComponent<Renderer>().bounds.size.y;

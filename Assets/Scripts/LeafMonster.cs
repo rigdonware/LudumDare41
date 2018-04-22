@@ -9,9 +9,10 @@ public class LeafMonster : BaseCharacter {
 		base.Start();
 		tower = GameObject.Find("PlayerTower");
 		attackPower = 10;
-		attackRadius = 2;
-		attackCooldown = 2;
-		speed = 10;
+		attackRadius = 3;
+		attackCooldown = .5f;
+		speed = 8;
+		health = 75;
 	}
 
 	// Update is called once per frame

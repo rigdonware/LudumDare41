@@ -7,12 +7,12 @@ public class PlayerSpawner : MonoBehaviour {
 	List<GameObject> soldierQueue;
 	List<GameObject> sniperQueue;
 	List<GameObject> robotQueue;
-	float soldierTimer = 0;
-	float soldierCooldown = 3;
-	float sniperTimer = 0;
+	float soldierTimer = 2;
+	float soldierCooldown = 2;
+	float sniperTimer = 3;
 	float sniperCooldown = 3;
-	float robotTimer = 0;
-	float robotCooldown = 3;
+	float robotTimer = 4;
+	float robotCooldown = 4;
 	// Use this for initialization
 	void Start () {
 		soldierQueue = new List<GameObject>();

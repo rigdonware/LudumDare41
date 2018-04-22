@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
 
-	float respawnCooldown = 4;
+	float respawnCooldown = 10;
 	float respawnCounter = 0;
+	float maxRespawnTime = 10;
+	float minRespawnTime = 5;
+	float currentMarker = 60;
 	GameObject[] monsters;
 //	GameObject RockMonster;
 //	GameObject LeafMonster;
@@ -29,7 +32,21 @@ public class EnemySpawner : MonoBehaviour {
 		if(respawnCounter >= respawnCooldown)
 		{
 			GameObject temp = (GameObject)Instantiate(monsters[Random.Range(0, monsters.Length)], enemySpawnLoc, Quaternion.identity);
+			respawnCooldown = Random.Range(minRespawnTime, maxRespawnTime);
 			respawnCounter = 0;
+		}
+
+		if(GameManager.instance.GameDurationInSeconds >= currentMarker)
+		{
+			currentMarker +=  30;
+			minRespawnTime--;
+			maxRespawnTime--;
+			Debug.Log("Increasing difficulty");
+
+			if(minRespawnTime <= 0)
+				minRespawnTime = 0;
+			if(maxRespawnTime <= 4)
+				maxRespawnTime = 4;
 		}
 	}
 }

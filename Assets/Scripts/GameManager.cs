@@ -7,28 +7,33 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance = null;
-	public int gold = 20;
+	public int gold = 0;
 	public int brick = 0;
-	public int steel = 20;
+	public int steel = 0;
+	float warningTimer = 3;
+	float warningCounter = 0;
+	bool displayWarning;
 	GameObject playerTower, enemyTower;
 	bool gameOver;
-
+	public float GameDurationInSeconds = 0;
 	public int gameType;
 	public const int RTS = 1;
 	public const int TOWER_DEFENSE = 2;
 
 	public Slider towerHealth;
 
-	Text goldText, brickText, steelText;
+	Text goldText, brickText, steelText, warningText;
 	public bool playerWins;
 	// Use this for initialization
 	void Start () {
 		gameType = RTS;
-		gold = 200;
-		steel = 50;
+		gold = 20;
 		goldText = GameObject.Find("Canvas").transform.Find("Gold").GetComponent<Text>();
 		brickText = GameObject.Find("Canvas").transform.Find("Brick").GetComponent<Text>();
 		steelText = GameObject.Find("Canvas").transform.Find("Steel").GetComponent<Text>();
+		warningText = GameObject.Find("Canvas").transform.Find("WarningText").GetComponent<Text>();
+
+		displayWarning = false;
 
 		if(goldText)
 			goldText.text = "Gold: " + gold.ToString();
@@ -68,6 +73,19 @@ public class GameManager : MonoBehaviour {
 
 		if(towerHealth && playerTower)
 			towerHealth.value = playerTower.GetComponent<Tower>().health / 100;
+
+
+		if(displayWarning)
+			warningCounter += Time.deltaTime;
+
+		if(warningCounter >= warningTimer)
+		{
+			warningText.text = "";
+			displayWarning = false;
+		}
+
+		
+		GameDurationInSeconds += Time.deltaTime;
 	}
 
 	public void IncreaseGold(int amount)
@@ -93,5 +111,10 @@ public class GameManager : MonoBehaviour {
 		SceneManager.LoadScene("EndGame");
 	}
 
-
+	public void DisplayWarning(string text)
+	{
+		warningText.text = text;
+		warningCounter = 0;
+		displayWarning = true;
+	}
 }
