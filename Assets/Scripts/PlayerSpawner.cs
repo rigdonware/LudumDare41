@@ -85,6 +85,7 @@ public class PlayerSpawner : MonoBehaviour {
 		GameObject spawnPos = GameObject.Find("ScoutSpawnPos");
 		float difference = GetComponent<Renderer>().bounds.size.y - this.gameObject.GetComponent<Renderer>().bounds.size.y;
 		GameObject temp = (GameObject)Instantiate(whichPrefab, spawnPos.transform.position, Quaternion.identity);
+		GameManager.instance.IncreaseGold(whichPrefab.GetComponent<Scout>().cost * -1);
 	}
 
 }

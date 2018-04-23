@@ -20,18 +20,17 @@ public class GameManager : MonoBehaviour {
 	public const int RTS = 1;
 	public const int TOWER_DEFENSE = 2;
 
-	public Slider towerHealth;
+	public Slider towerHealth, enemyTowerHealth;
 
-	Text goldText, brickText, steelText, warningText;
+	public Text goldText, brickText, steelText, warningText;
 	public bool playerWins;
 	// Use this for initialization
 	void Start () {
 		gameType = RTS;
-		gold = 20;
-		goldText = GameObject.Find("Canvas").transform.Find("Gold").GetComponent<Text>();
-		brickText = GameObject.Find("Canvas").transform.Find("Brick").GetComponent<Text>();
-		steelText = GameObject.Find("Canvas").transform.Find("Steel").GetComponent<Text>();
-		warningText = GameObject.Find("Canvas").transform.Find("WarningText").GetComponent<Text>();
+		goldText = GameObject.Find("Canvas").transform.Find("Overlay").transform.Find("Gold").GetComponent<Text>();
+		brickText = GameObject.Find("Canvas").transform.Find("Overlay").transform.Find("Brick").GetComponent<Text>();
+		steelText = GameObject.Find("Canvas").transform.Find("Overlay").transform.Find("Steel").GetComponent<Text>();
+		warningText = GameObject.Find("Canvas").transform.Find("Overlay").transform.Find("WarningText").GetComponent<Text>();
 
 		displayWarning = false;
 
@@ -47,6 +46,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		if (instance == null)
 			instance = this;
 		else if (instance != this)
@@ -73,6 +73,9 @@ public class GameManager : MonoBehaviour {
 
 		if(towerHealth && playerTower)
 			towerHealth.value = playerTower.GetComponent<Tower>().health / 100;
+
+		if(enemyTower && enemyTowerHealth)
+			enemyTowerHealth.value = enemyTower.GetComponent<Tower>().health / 200;
 
 
 		if(displayWarning)

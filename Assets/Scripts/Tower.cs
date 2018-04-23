@@ -7,7 +7,10 @@ public class Tower : MonoBehaviour {
 	public float health;
 	// Use this for initialization
 	void Start () {
-		health = 100;
+		if(gameObject.name == "EnemyTower")
+			health = 200;
+		else
+			health = 100;
 	}
 	
 	// Update is called once per frame

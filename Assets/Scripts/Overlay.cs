@@ -52,6 +52,12 @@ public class Overlay : MonoBehaviour {
 			GameManager.instance.DisplayWarning("Not enough gold");
 			return;
 		}
+		GameObject[] scouts = GameObject.FindGameObjectsWithTag("Scout");
+		if(scouts.Length >= 3)
+		{
+			GameManager.instance.DisplayWarning("You already have the maximum amount of scouts");
+			return;
+		}
 		GameObject playerStart = GameObject.Find("PlayerStart");
 		if(playerStart && prefab)
 			playerStart.GetComponent<PlayerSpawner>().QueueUpScout(prefab);

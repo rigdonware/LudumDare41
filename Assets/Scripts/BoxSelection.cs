@@ -48,7 +48,7 @@ public class BoxSelection : MonoBehaviour {
 				clickedLocation = rayHit.collider.gameObject;
 				if(clickedLocation)
 					Debug.Log("Clicked " + clickedLocation.name);
-				if(clickedLocation && clickedLocation.name == "Path" || clickedLocation.GetComponent<Tower>())
+				if(clickedLocation && clickedLocation.name == "Path" || clickedLocation.GetComponent<Tower>() || clickedLocation.tag == "Destination")
 				{
 					Debug.Log("Moving units");
 					MoveSelectedUnits();
@@ -94,23 +94,14 @@ public class BoxSelection : MonoBehaviour {
 			{
 				if(obj.layer == LayerMask.NameToLayer("Soldier"))
 				{
-					if(clickedLocation.GetComponent<Tower>())
-					{
-						Debug.Log("clicked on tower");
-						clickedLocation = obj.GetComponent<Soldier>().FindClosestDestination();
-					}
 					obj.GetComponent<Soldier>().targetDestination = clickedLocation;
 				}
 				else if(obj.layer == LayerMask.NameToLayer("Sniper"))
 				{
-					if(clickedLocation.GetComponent<Tower>())
-						clickedLocation = obj.GetComponent<Sniper>().FindClosestDestination();
 					obj.GetComponent<Sniper>().targetDestination = clickedLocation;
 				}
 				else if(obj.layer == LayerMask.NameToLayer("Robot"))
 				{
-					if(clickedLocation.GetComponent<Tower>())
-						clickedLocation = obj.GetComponent<Robot>().FindClosestDestination();
 					obj.GetComponent<Robot>().targetDestination = clickedLocation;
 				}
 			}

@@ -65,11 +65,10 @@ public class BaseCharacter : MonoBehaviour {
 				if(!destination)
 				{
 					destination = FindClosestDestination();
-					//skewedLocation = destination.transform.position;
-//					skewedLocation = new Vector3(destination.transform.position.x + Random.Range(-2, 2),
-//					 				 destination.transform.position.y,
-//									destination.transform.position.z + Random.Range(-2, 2));
 				}
+
+				if(targetDestination && targetDestination.name == "EnemyTower")
+					Debug.Log("Selecting enemy tower");
 
 				if(targetDestination && destination && !targetEnemy)
 				{
@@ -221,7 +220,7 @@ public class BaseCharacter : MonoBehaviour {
 
 	public virtual void AttackEnemy()
 	{
-		
+
 		//targetEnemy.GetComponent<BaseCharacter>().health -= attackPower;
 		//targetEnemy.GetComponent<BaseCharacter>().healthBar.fillAmount = health;
 	}
